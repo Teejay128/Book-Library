@@ -2,6 +2,17 @@
 
 A simple library where users can store, read and receive books
 
+## How to run locally
+
+- Clone the project locally
+- cd into the main project
+- run `npm install` to install dependencies
+  - nodemon
+  - dotenv
+  - express
+- run `npm run devStart` to start local instance using nodemon
+- open `http://localhost:3000` in your browser
+
 ## Routes
 
 ### User routes
