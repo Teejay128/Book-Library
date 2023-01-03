@@ -1,53 +1,61 @@
 # Book-Library
 
-A simple library where users can store, read and receive books
+An API library where users can store, read and receive books
 
 ## How to run locally
 
 - Clone the project locally
-- cd into the main project
+- cd into the project folder
 - run `npm install` to install dependencies
-  - nodemon
-  - dotenv
-  - express
-- run `npm run devStart` to start local instance using nodemon
+- run `npm run dev:start` to start local instance using nodemon
 - open `http://localhost:3000` in your browser
 
 ## Routes
 
-### User routes
+### User routes /user
+
+- GET /:id - Display user details
+
+
+### Authentication /auth
 
 - POST /register => Registers a new user
 - POST /login => Login a user into the application
 - POST /logout => Logout a user from the application
 
-### Book routes
+### Book routes /book
 
-- GET /all => Returns all available books in the library
-- GET /:id => Returns a particular book by its ID
-- POST / => Adds a new book to the library
-- DELETE /:id => Removes a book from the library
-- PUT /id => Updates a book in the Library
+- GET /           Returns all available books in the library
+- GET /:id        Returns a particular book by its ID
+- POST /          Adds a new book to the library
+- DELETE /:id     Removes a book from the library
+- PATCH /:id        Updates a book in the Library
 
 ## Models
 
-### Book models
+### Book 
 
-- title
-- author
-- description
-- body
-- isbn
-- category
-- timestamps
+- title: string
+- author : author_id
+- description : string
+- body : string
+- isbn : string
+- category : enum []
+- timestamps : Date
 
-### User models
 
-- first_name
-- last_name
-- email
-- password
-- role
+### Author
+- name: string
+- id: string
+
+### User 
+
+- first_name : string
+- last_name : string
+- email : string
+- password : string
+- subscribedBooks : Book[]
+- role : enum [ user, admin ]
 
 ## Frontend
 
