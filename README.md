@@ -16,7 +16,6 @@ An API library where users can store, read and receive books
 
 - GET /:id - Display user details
 
-
 ### Authentication /auth
 
 - POST /register => Registers a new user
@@ -33,7 +32,7 @@ An API library where users can store, read and receive books
 
 ## Models
 
-### Book 
+### Book
 
 - title: string
 - author : author_id
@@ -43,12 +42,12 @@ An API library where users can store, read and receive books
 - category : enum []
 - timestamps : Date
 
-
 ### Author
+
 - name: string
 - id: string
 
-### User 
+### User
 
 - first_name : string
 - last_name : string
