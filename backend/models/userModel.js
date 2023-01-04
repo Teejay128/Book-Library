@@ -20,7 +20,7 @@ const userSchema = new Schema(
       type: String,
       required: true,
     },
-    subscribebBooks: [
+    subscribedBooks: [
       {
         type: mongoose.Schema.Types.ObjectId,
         ref: "books",
