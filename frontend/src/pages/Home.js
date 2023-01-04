@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
+import BookCard from "../components/BookCard";
 // import { UserContext } from "../contexts/userContext";
 import CreateBook from "../components/CreateBook";
 const Home = () => {
@@ -45,6 +46,15 @@ const Home = () => {
         </div>
       </div>
       {createBook && <CreateBook close={() => setCreateBook(false)} />}
+      <div className="my-8 mx-10">
+        <BookCard />
+        <BookCard />
+        <BookCard />
+        <BookCard />
+        <BookCard />
+        <BookCard />
+        <BookCard />
+      </div>
     </div>
   );
 };

@@ -12,6 +12,7 @@ const CreateBook = ({ close }) => {
   useEffect(() => {
     axios.get("/categories").then((res) => console.log(res.data));
   }, []);
+
   function handleSubmit(e) {
     e.preventDefault();
     console.log(formData);
