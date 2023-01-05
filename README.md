@@ -36,8 +36,7 @@ An API library where users can store, read and receive books
 
 | field           | data_type | constraints      |
 | --------------- | --------- | ---------------- |
-| firstName       | string    | required         |
-| lastName        | string    | required         |
+| userName        | string    | required         |
 | email           | string    | required, unique |
 | password        | string    | required         |
 | subscribedBooks | objectId  | ref: "books"     |

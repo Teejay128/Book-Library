@@ -3,29 +3,23 @@ const Schema = mongoose.Schema;
 
 const userSchema = new Schema(
   {
-    firstName: {
+    userName: {
       type: String,
-      required: true,
-    },
-    lastName: {
-      type: String,
-      required: true,
+      require: [true, "User must have a username"],
     },
     email: {
       type: String,
-      required: true,
-      unique: true,
+      required: [true, "User must have an email"],
+      unique: [true, "User with that email already exists"],
     },
     password: {
       type: String,
-      required: true,
+      required: [true, "User must have a password"],
     },
-    subscribedBooks: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "books",
-      },
-    ],
+    subscribedBooks: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "books",
+    },
     userRole: {
       type: String,
       enum: ["User", "Admin"],
@@ -35,48 +29,6 @@ const userSchema = new Schema(
   { timestamps: true }
 );
 
-const authorSchema = new Schema({
-  name: {
-    type: String,
-    required: true,
-  },
-});
+const User = mongoose.model("users", userSchema);
 
-const bookSchema = new Schema(
-  {
-    title: {
-      type: String,
-      required: true,
-      unique: true,
-    },
-    author: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "authors",
-    },
-    body: {
-      type: String,
-      required: true,
-    },
-    isbn: {
-      type: String,
-      required: true,
-      unique: [true, "ISBN must be unique"],
-    },
-    category: {
-      type: String,
-      enum: [],
-      required: true,
-    },
-  },
-  { timestamps: true }
-);
-
-const users = mongoose.model("users", userSchema);
-const author = mongoose.model("author", authorSchema);
-const books = mongoose.model("books", bookSchema);
-
-module.exports = {
-  users,
-  author,
-  books,
-};
+module.exports = User;
