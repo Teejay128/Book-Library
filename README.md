@@ -32,29 +32,37 @@ An API library where users can store, read and receive books
 
 ## Models
 
-### Book
+### User
 
-- title: string
-- author : author_id
-- description : string
-- body : string
-- isbn : string
-- category : enum []
-- timestamps : Date
+| field           | data_type | constraints      |
+| --------------- | --------- | ---------------- |
+| userName        | string    | required         |
+| email           | string    | required, unique |
+| password        | string    | required         |
+| subscribedBooks | objectId  | ref: "books"     |
+| useRole         | enum      | [ user, admin ]  |
+| timestamps      | date      | auto-generated   |
+| id              | string    | auto-generated   |
 
 ### Author
 
-- name: string
-- id: string
+| field  | data_type | constraints    |
+| ------ | --------- | -------------- |
+| name   | string    | required       |
+| id     | string    | auto-generated |
 
-### User
+### Book
 
-- first_name : string
-- last_name : string
-- email : string
-- password : string
-- subscribedBooks : Book[]
-- role : enum [ user, admin ]
+| field        | data_type | constraints      |
+| ------------ | --------- | ---------------- |
+| title        | string    | required, unique |
+| author       | objectId  | ref: "authors    |
+| description  | string    | required         |
+| body         | string    | required         |
+| isbn         | string    | auto-generated   |
+| category     | enum      | (tags, genre)?   |
+| timestamps   | Date      | auto-generated   |
+| id           | string    | auto-generated   |
 
 ## Frontend
 
