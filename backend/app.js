@@ -1,10 +1,14 @@
 const express = require('express');
+const dbConnect = require('./dbconnection/dbconnect')
+
+
 
 const app = express();
 
 // Middlewares
 
 // Connect to database
+dbConnect()
 
 // Routes
 
