@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import BookCard from "../components/BookCard";
-// import { UserContext } from "../contexts/userContext";
+import { UserContext } from "../contexts/userContext";
 import CreateBook from "../components/CreateBook";
 const Home = () => {
   // const { user, setUser } = useContext(UserContext);
@@ -12,9 +12,32 @@ const Home = () => {
   //     window.location.href = "/signup";
   //   }
   // });
-  const [books, setBooks] = useState([]);
+  const [books, setBooks] = useState([
+    {
+      title: "test",
+      author: "test",
+      category: "test",
+      isbn: "test",
+      id: "test",
+      body: "test",
+    },
+  ]);
   const [bookList, setBookList] = useState("all");
   const [createBook, setCreateBook] = useState(false);
+
+  const [user, setUser] = useState(null);
+
+  const booksMap = books.map((book) => {
+    return (
+      <BookCard
+        key={book.id}
+        user={user}
+        book={book}
+        openMyBooks={() => setBookList("my")}
+      />
+    );
+  });
+
   return (
     <div>
       <div className="flex flex-col-reverse sm:flex-row justify-between items-center border-2 px-4 py-6 sm:px-10">
@@ -45,15 +68,18 @@ const Home = () => {
           </div>
         </div>
       </div>
-      {createBook && <CreateBook close={() => setCreateBook(false)} />}
+      {createBook && (
+        <CreateBook
+          close={() => setCreateBook(false)}
+          openMyBooks={() => setBookList("my")}
+        />
+      )}
       <div className="my-8 mx-10">
-        <BookCard />
-        <BookCard />
-        <BookCard />
-        <BookCard />
-        <BookCard />
-        <BookCard />
-        <BookCard />
+        {books.length > 0 ? (
+          booksMap
+        ) : (
+          <h1 className=" text-4xl text-gray-700 font-semibold">No Books</h1>
+        )}
       </div>
     </div>
   );
