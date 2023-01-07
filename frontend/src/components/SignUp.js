@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import Alert from "./Alert";
 
 const SignUp = ({ setAuthType }) => {
   const [formData, setFormData] = useState({
@@ -7,14 +8,40 @@ const SignUp = ({ setAuthType }) => {
     email: "",
     password: "",
   });
-  function handleSubmit(e) {
+  const [alert, setAlert] = useState({
+    showAlert: false,
+    type: "",
+    message: "",
+  });
+  async function handleSubmit(e) {
     e.preventDefault();
-    console.log(formData);
-    window.location.href = "/";
-  }
 
+    try {
+      console.log(formData);
+      setAlert({
+        showAlert: true,
+        type: "success",
+        message: "Sign Up successful",
+      });
+      setTimeout(() => {
+        window.location.href = "/";
+      }, 1500);
+    } catch (err) {
+      console.log(err);
+      setAlert({
+        showAlert: true,
+        type: "error",
+        message: "Invalid credentials",
+      });
+      setTimeout(() => {
+        setAlert({ showAlert: false, type: "", message: "" });
+      }, 1500);
+    }
+  }
   return (
     <div>
+      {alert.showAlert && <Alert type={alert.type} message={alert.message} />}
+
       <div className=" max-w-screen-lg flex flex-col bg-white p-10 rounded-lg w-screen">
         <form className="flex flex-col w-full mb-6" onSubmit={handleSubmit}>
           <label htmlFor="firstName">First Name</label>
