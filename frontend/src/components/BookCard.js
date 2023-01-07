@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import axios from "../axiosLib";
 import Alert from "./Alert";
 import UpdateBook from "./updateBook";
+import ConfirmDelete from "./ConfirmDelete";
 
 const BookCard = ({ book, user, openMyBooks }) => {
   const [showUpdateBook, setShowUpdateBook] = useState(false);
@@ -11,6 +12,8 @@ const BookCard = ({ book, user, openMyBooks }) => {
     type: "",
     message: "",
   });
+  const [showConfirmDelete, setShowConfirmDelete] = useState(false);
+
   const deleteBook = async () => {
     try {
       await axios.delete(`/books/${book.id}`);
@@ -43,6 +46,12 @@ const BookCard = ({ book, user, openMyBooks }) => {
           close={() => setShowUpdateBook(false)}
           openMyBooks={openMyBooks}
           book={book}
+        />
+      )}
+      {showConfirmDelete && (
+        <ConfirmDelete
+          cancel={() => setShowConfirmDelete(false)}
+          delete={deleteBook}
         />
       )}
       <div className="p-5 py-7 border-2 border-gray-100 rounded-2xl shadow-md hover:shadow-lg transition ease-in-out duration-200">
@@ -79,7 +88,7 @@ const BookCard = ({ book, user, openMyBooks }) => {
                 />
               </svg>
               <svg
-                onClick={deleteBook}
+                onClick={() => setShowConfirmDelete(true)}
                 className="w-8 h-8 text-gray-500 hover:text-gray-700 mb-4 cursor-pointer"
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"

@@ -13,7 +13,6 @@ const CreateBook = ({ close, openMyBooks }) => {
   useEffect(() => {
     axios.get("/categories").then((res) => console.log(res.data));
   }, []);
-
   const [alert, setAlert] = useState({
     showAlert: false,
     type: "",
