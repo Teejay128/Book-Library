@@ -49,6 +49,7 @@ const UpdateBook = ({ close, openMyBooks, book }) => {
   const categoriesInput =
     categories.length > 0 ? (
       <select
+        value={book.category}
         onChange={(e) => {
           return { ...formData, category: e.target.value };
         }}
