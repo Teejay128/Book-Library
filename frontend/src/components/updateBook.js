@@ -11,7 +11,9 @@ const UpdateBook = ({ close, openMyBooks, book }) => {
     category: book.category,
   });
   useEffect(() => {
-    axios.get("/categories").then((res) => console.log(res.data));
+    axios
+      .get("/categories")
+      .then((res) => setCategories(res.data.data.categories));
   }, []);
 
   const [alert, setAlert] = useState({
@@ -23,22 +25,26 @@ const UpdateBook = ({ close, openMyBooks, book }) => {
     e.preventDefault();
 
     try {
-      console.log(formData);
+      await axios.patch(`/books/${book._id}`, formData, {
+        withCredentials: true,
+      });
       setAlert({
         showAlert: true,
         type: "success",
         message: "Book Updated successfully",
       });
       setTimeout(() => {
-        openMyBooks();
-        close();
+        window.location.reload();
+        // Not needed anymore
+        // openMyBooks();
+        // close();
       }, 1500);
     } catch (err) {
       console.log(err);
       setAlert({
         showAlert: true,
         type: "error",
-        message: "Something went wrong",
+        message: err.response ? err.response.data.message : err.message,
       });
       setTimeout(() => {
         setAlert({ showAlert: false, type: "", message: "" });
@@ -49,16 +55,14 @@ const UpdateBook = ({ close, openMyBooks, book }) => {
   const categoriesInput =
     categories.length > 0 ? (
       <select
+        className="px-4 py-2 border-slate-500 border-2 rounded-md mb-5"
         value={book.category}
         onChange={(e) => {
           return { ...formData, category: e.target.value };
         }}
       >
         {categories.map((category) => (
-          <option
-            value={category.name}
-            selected={category.name === book.category ? true : false}
-          >
+          <option key={category._id} value={category.name}>
             {category.name}
           </option>
         ))}

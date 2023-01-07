@@ -2,31 +2,34 @@ import React, { useContext, useEffect, useState } from "react";
 import BookCard from "../components/BookCard";
 import { UserContext } from "../contexts/userContext";
 import CreateBook from "../components/CreateBook";
+import axios from "../axiosLib";
+
 const Home = () => {
-  // const { user, setUser } = useContext(UserContext);
-  // useEffect(() => {
-  //   const localUser = JSON.parse(localStorage.getItem("user"));
-  //   if (localUser) {
-  //     setUser(localUser);
-  //   } else {
-  //     window.location.href = "/signup";
-  //   }
-  // });
-  const [books, setBooks] = useState([
-    {
-      title: "test",
-      author: "test",
-      category: "test",
-      isbn: "test",
-      id: "test",
-      body: "test",
-    },
-  ]);
+  const { user, setUser } = useContext(UserContext);
+  const [books, setBooks] = useState([]);
   const [bookList, setBookList] = useState("all");
   const [createBook, setCreateBook] = useState(false);
 
-  const [user, setUser] = useState(null);
+  useEffect(() => {
+    const fetchBooks = async () => {
+      const res = await axios.get(
+        `${bookList === "all" ? "/books" : "/books/mybooks"}`
+      );
+      setBooks(res.data.data.books);
+    };
+    fetchBooks();
+  }, [bookList]);
 
+  useEffect(() => {
+    const localUser = JSON.parse(localStorage.getItem("user"));
+    if (localUser) {
+      setUser(localUser);
+    } else {
+      window.location.href = "/auth";
+    }
+  }, []);
+
+  // const [user, setUser] = useState(null);
   const booksMap = books.map((book) => {
     return (
       <BookCard

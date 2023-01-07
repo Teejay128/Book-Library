@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import Alert from "./Alert";
+import axios from "../axiosLib";
 
 const SignUp = ({ setAuthType }) => {
   const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
+    username: "",
     email: "",
     password: "",
   });
@@ -17,7 +17,11 @@ const SignUp = ({ setAuthType }) => {
     e.preventDefault();
 
     try {
-      console.log(formData);
+      const res = await axios.post("/users/signup", formData, {
+        withCredentials: true,
+      });
+      await localStorage.setItem("user", JSON.stringify(res.data.data.user));
+
       setAlert({
         showAlert: true,
         type: "success",
@@ -31,7 +35,7 @@ const SignUp = ({ setAuthType }) => {
       setAlert({
         showAlert: true,
         type: "error",
-        message: "Invalid credentials",
+        message: err.response.data.message,
       });
       setTimeout(() => {
         setAlert({ showAlert: false, type: "", message: "" });
@@ -44,26 +48,17 @@ const SignUp = ({ setAuthType }) => {
 
       <div className=" max-w-screen-lg flex flex-col bg-white p-10 rounded-lg w-screen">
         <form className="flex flex-col w-full mb-6" onSubmit={handleSubmit}>
-          <label htmlFor="firstName">First Name</label>
+          <label htmlFor="username">Username</label>
           <input
             className="px-4 py-2 border-slate-500 border-2 rounded-md mb-5"
             type="text"
-            id="firstName"
+            id="username"
             onChange={(e) =>
-              setFormData({ ...formData, firstName: e.target.value })
+              setFormData({ ...formData, username: e.target.value })
             }
             required
           />
-          <label htmlFor="lastName">Last Name</label>
-          <input
-            className="px-4 py-2 border-slate-500 border-2 rounded-md mb-5"
-            type="text"
-            id="lastName"
-            onChange={(e) =>
-              setFormData({ ...formData, lastName: e.target.value })
-            }
-            required
-          />
+
           <label htmlFor="email">Email</label>
           <input
             className="px-4 py-2 border-slate-500 border-2 rounded-md mb-5"

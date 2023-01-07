@@ -16,7 +16,7 @@ const ConfirmDelete = (props) => {
           <h3 className=" text-center text-3xl font-semibold mb-6">
             Confirm Delete
           </h3>
-          <p className="text-xl mb-6 font-normal">
+          <p className="text-xl mb-6 font-normal text-center justify-center">
             Do you really want to delete this book ?
           </p>
         </div>

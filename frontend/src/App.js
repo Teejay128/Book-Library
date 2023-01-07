@@ -12,7 +12,7 @@ function App() {
         <Router>
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/signup" element={<AuthPage />} />
+            <Route path="/auth" element={<AuthPage />} />
             <Route path="/book/:id" element={<Details />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
