@@ -9,8 +9,8 @@ const bookSchema = new Schema(
       unique: true,
     },
     author: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "authors",
+      type: Schema.Types.ObjectId,
+      ref: "User",
     },
     body: {
       type: String,
@@ -25,28 +25,36 @@ const bookSchema = new Schema(
       type: String,
       enum: {
         values: [
-            "Adventure",
-            "Romance",
-            "Sci-fi",
-            "Horror",
-            "Thriller",
-            "Cooking",
-            "History",
-            "Mystery",
-            "Biography",
-            "Religious",
-            "Education",
-            "Buisness"
+          "Adventure",
+          "Romance",
+          "Sci-fi",
+          "Horror",
+          "Thriller",
+          "Cooking",
+          "History",
+          "Mystery",
+          "Biography",
+          "Religious",
+          "Education",
+          "Business",
         ],
-        message: "Invalid category"
+        message: "Invalid category",
       },
       default: "Adventure",
-      required: true,
     },
   },
-  { timestamps: true }
+  {
+    timestamps: true,
+    toJSON: { virtuals: true },
+    toObject: { virtuals: true },
+  }
 );
+
+bookSchema.pre(/^find/, function (next) {
+  this.populate({ path: "author", select: "username" });
+  next();
+});
 
 const Book = mongoose.model("books", bookSchema);
 
-module.exports = Book
+module.exports = Book;
