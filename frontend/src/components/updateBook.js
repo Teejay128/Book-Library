@@ -62,11 +62,7 @@ const UpdateBook = ({ close, openMyBooks, book }) => {
         }}
       >
         {categories.map((category) => (
-          <option
-            key={category._id}
-            value={category.name}
-            selected={category.name === book.category ? true : false}
-          >
+          <option key={category._id} value={category.name}>
             {category.name}
           </option>
         ))}
