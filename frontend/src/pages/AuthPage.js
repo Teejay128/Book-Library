@@ -3,7 +3,7 @@ import Login from "../components/Login";
 import SignUp from "../components/SignUp";
 
 const AuthPage = () => {
-  const [authType, setAuthType] = useState("signup");
+  const [authType, setAuthType] = useState("login");
 
   const handleAuthType = (type) => {
     setAuthType(type);

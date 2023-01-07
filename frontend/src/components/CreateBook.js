@@ -4,40 +4,52 @@ import Alert from "./Alert";
 
 const CreateBook = ({ close, openMyBooks }) => {
   const [categories, setCategories] = useState([]);
+  useEffect(() => {
+    axios
+      .get("/categories")
+      .then((res) => setCategories(res.data.data.categories));
+  }, []);
+
   const [formData, setFormData] = useState({
     title: "",
     body: "",
     isbn: "",
-    category: "",
+    category: categories[0],
   });
-  useEffect(() => {
-    axios.get("/categories").then((res) => console.log(res.data));
-  }, []);
+
   const [alert, setAlert] = useState({
     showAlert: false,
     type: "",
     message: "",
   });
+
   async function handleSubmit(e) {
     e.preventDefault();
 
     try {
       console.log(formData);
+      await axios.post("/books", formData, {
+        withCredentials: true,
+      });
+
       setAlert({
         showAlert: true,
         type: "success",
         message: "Book Created successfully",
       });
+
       setTimeout(() => {
-        openMyBooks();
-        close();
+        window.location.reload();
+        // Not needed anymore
+        // close();
+        // openMyBooks();
       }, 1500);
     } catch (err) {
       console.log(err);
       setAlert({
         showAlert: true,
         type: "error",
-        message: "Something went wrong",
+        message: err.response.data.message,
       });
       setTimeout(() => {
         setAlert({ showAlert: false, type: "", message: "" });
@@ -48,13 +60,14 @@ const CreateBook = ({ close, openMyBooks }) => {
   const categoriesInput =
     categories.length > 0 ? (
       <select
-        value={categories[0]}
-        onChange={(e) => {
-          return { ...formData, category: e.target.value };
-        }}
+        className="px-4 py-2 border-slate-500 border-2 rounded-md mb-5"
+        onChange={(e) => setFormData({ ...formData, category: e.target.value })}
+        required
       >
         {categories.map((category) => (
-          <option value={category.name}>{category.name}</option>
+          <option key={category._id} value={category.name}>
+            {category.name}
+          </option>
         ))}
       </select>
     ) : null;

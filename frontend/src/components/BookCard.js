@@ -16,7 +16,9 @@ const BookCard = ({ book, user, openMyBooks }) => {
 
   const deleteBook = async () => {
     try {
-      await axios.delete(`/books/${book.id}`);
+      await axios.delete(`/books/${book.id}`, {
+        withCredentials: true,
+      });
       setAlert({
         showAlert: true,
         type: "success",
@@ -58,19 +60,21 @@ const BookCard = ({ book, user, openMyBooks }) => {
         <div className="flex justify-between">
           <div>
             <Link className="cursor-pointer" to={`/book/${book.id}`}>
-              <div className="text-4xl mb-4 transition ease-out duration-500 hover:underline ">
+              <div className="text-4xl mb-4 transition ease-out duration-500 hover:underline truncate w-40 sm:w-[30rem]">
                 {book.title}
               </div>
             </Link>
-            <div className="text-xl text-gray-600 mb-2">
-              Written by <span className="italic">{book.author}</span>
+            <div className="text-xl text-gray-600 mb-2 truncate w-40 sm:w-[30rem]">
+              By <span className="italic">{book.author.username}</span>
             </div>
-            <div className="text-xl text-gray-600 italic mb-2">
+            <div className="text-xl text-gray-600 italic mb-2 truncate w-40 sm:w-[30rem]">
               Genre: <span className="italic">{book.category}</span>
             </div>
-            <div className="text-lg text-gray-400 italic">{book.isbn}</div>
+            <div className="text-lg text-gray-400 italic truncate w-40 sm:w-[30rem]">
+              {book.isbn}
+            </div>
           </div>
-          {book.id ? (
+          {book.author.id === user.id ? (
             <div>
               <svg
                 onClick={() => setShowUpdateBook(true)}

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import Alert from "./Alert";
+import axios from "../axiosLib";
 
 const Login = ({ setAuthType }) => {
   const [formData, setFormData] = useState({ email: "", password: "" });
@@ -12,7 +13,10 @@ const Login = ({ setAuthType }) => {
     e.preventDefault();
 
     try {
-      console.log(formData);
+      const res = await axios.post("/users/login", formData, {
+        withCredentials: true,
+      });
+      await localStorage.setItem("user", JSON.stringify(res.data.data.user));
       setAlert({
         showAlert: true,
         type: "success",
@@ -26,7 +30,7 @@ const Login = ({ setAuthType }) => {
       setAlert({
         showAlert: true,
         type: "error",
-        message: "Invalid credentials",
+        message: err.response.data.message,
       });
       setTimeout(() => {
         setAlert({ showAlert: false, type: "", message: "" });
